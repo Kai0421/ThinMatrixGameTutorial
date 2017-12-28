@@ -6,6 +6,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 public class MainGameLoop {
 
@@ -14,6 +15,7 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
 		
 		float[] vertices = {
 			    -0.5f, 0.5f, 0, 	//V0
@@ -31,15 +33,17 @@ public class MainGameLoop {
 		
 		while(!Display.isCloseRequested()){
 			//gameLogic
-			renderer.prepare();
-			renderer.render(model);
-			
+
 			
 			//render
-			
+			renderer.prepare();
+			shader.start();
+			renderer.render(model);
+			shader.stop();
 			DisplayManager.updateDisplay();
 		}
-		
+
+		shader.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 	}
