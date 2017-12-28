@@ -1,0 +1,65 @@
+#Project Setup
+>> Download LWJGL version 2.9, Slick util
+>> Unzip LWJGL.zip
+>> Create folder within the project, name : - jars
+                                            - natives
+
+>> Find And move : lwgjl.jar, lwgjl-util.jar, slick-util.jar > jars folder
+>> copy your os version of natives into natives folder.
+
+>>JetBrain IDE
+    > Add Jars to the project Ctrl + Shift + Alt + s
+    > Modules Options > Dependencies > +
+    > Select the *.jar from the jars Folder.
+
+    > Add native library location  Ctrl + Shift + Alt + s
+    > Global Libraries > 2nd column + > Java
+    > Browse Java JRE folder
+    > Add JRE 1.8
+    > Click + > choose the native folder
+
+>> Eclipse IDE
+    > Right Click project build path
+    > add Jars
+    > Click on drop down arrow in Java library
+    > Native library location > Edit
+    > select the native folder
+
+
+#Episode 7: Matrices & Uniform Variables
+(in) model data in vao => Vertex Shader  => (out) per vertex variable (in) => Fragment shader => (out) pixel color
+                                ^                                                     ^
+                         Uniform Variable                                      Uniform Variable
+
+>> Uniform variable is use to change the rotation, color or visual effect (fog)
+>> Send information directly to vertex and fragment shader Change the way the object are rendered, calculate sun position,
+    light intensity or fog density.
+>> Same model vao Data, can be render multiple times using uniform variables and Matrices, Model size, color, rotation
+    etc can be manipulated.
+>> Object transformation means The : (Translation, Rotation, and Scale). Each entity in the game will have its on
+    transformation.
+>> More Useful way to represent a transformation is to use a 4x4 matrix. (Transformation Matrix)
+    - Simple Matrix : http://www.mathsisfun.com/algebra/matrix-introduction.html
+                      http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
+
+    - Transformation Matrix : https://www.youtube.com/redirect?q=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FTransformation_matrix&redir_token=wiAybrj5XUkdJHcdGpZtxfm2xp98MTUxNDU0NzAxNUAxNTE0NDYwNjE1&v=oc8Yl4ZruCA&event=video_description
+    - Euler Rotation to Matrix Conversion :
+        https://www.youtube.com/redirect?q=http%3A%2F%2Fwww.euclideanspace.com%2Fmaths%2Fgeometry%2Frotations%2Fconversions%2FmatrixToEuler%2F&redir_token=wiAybrj5XUkdJHcdGpZtxfm2xp98MTUxNDU0NzAxNUAxNTE0NDYwNjE1&v=oc8Yl4ZruCA&event=video_description
+
+>> Each entity have: - Position (5, 0 ,12)
+                    - Rotation (0˚, 90˚, 0˚)
+                    - Scale 1.3
+
+    > We have to apply each transformation matrix to the entities using the same model. At some point b4 rendering it.
+        NOTE :  we can edit the VAO every time we render the entity in different position, then apply the tranformations
+                for each vertices in the model vao. But this will be VERY SLOW.
+
+            BETTER WAY : Transform the vertices in the vertex shader, each vertex have to come to the vertex shader
+                         each time.
+
+#Episode 8 : Model, View & Projection Matrices
+>> Projection matrix changes the view
+>> View Transformation matrix - camera View is the opposite of the projection matrix to allow entity move to the
+                                opposite side, visual effect of camera moving left when entity moving right.
+                              - Will be updated every frame.
+
